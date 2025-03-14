@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtualVista - Le Mall Virtuel Révolutionnaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #8A2BE2;
+            --secondary: #00BFFF;
+            --dark: #121212;
+            --light: #f5f5f7;
+            --success: #00C851;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #2a2a2a);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Glassmorphism elements */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-left: 5px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/random/1920x1080/?virtual,technology') no-repeat center center/cover;
+            z-index: -1;
+            filter: brightness(0.4);
+        }
+        
+        .hero-content {
+            max-width: 650px;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--light), #a0a0a0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        /* About Section */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-text h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .about-text p {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .about-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Features Section */
+        .features {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Crypto Section */
+        .crypto-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .crypto-text h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .crypto-text p {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .token-info {
+            margin-top: 30px;
+        }
+        
+        .token-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .token-info-item i {
+            font-size: 20px;
+            margin-right: 15px;
+            color: var(--success);
+        }
+        
+        .crypto-image {
+            position: relative;
+        }
+        
+        .crypto-card {
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .token-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--light);
+        }
+        
+        .token-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .token-value {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        /* Roadmap Section */
+        .roadmap {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-text {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .contact-info h3 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .contact-info-item {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info-item i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--secondary);
+        }
+        
+        .contact-info-text h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .contact-info-text p {
+            font-size: 16px;
+            color: #b0b0b0;
+        }
+        
+        .contact-form {
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(18, 18, 18, 0.8);
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-logo span {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            margin: 0 15px;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: var(--light);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 44px;
+            }
+            
+            .about-content,
+            .crypto-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .timeline-item:nth-child(odd)::after {
+                right: auto;
+                left: 21px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Virtual<span>Vista</span></a>
+                <nav>
+                    <ul>
+                        <li><a href="#about">À propos</a></li>
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#crypto">VISTA Token</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Le Mall Virtuel Révolutionnaire</h1>
+                <p>VirtualVista réinvente l'expérience du shopping en fusionnant l'authenticité des boutiques physiques avec la commodité du e-commerce dans un environnement VR immersif accessible depuis n'importe où dans le monde.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn">Investir maintenant</a>
+                    <a href="#about" class="btn btn-outline">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">À propos de VirtualVista</h2>
+            <div class="about-content">
+                <div class="about-text fade-in">
+                    <h3>Une nouvelle ère du shopping</h3>
+                    <p>VirtualVista est le premier mall virtuel mondial en réalité virtuelle qui permet aux utilisateurs de se promener dans des répliques fidèles de magasins emblématiques tout en effectuant des achats réels depuis n'importe où dans le monde.</p>
+                    <p>Notre technologie propriétaire offre une expérience immersive complète, permettant aux utilisateurs de vivre l'expérience sociale et sensorielle du shopping physique, tout en bénéficiant des avantages du commerce en ligne.</p>
+                    <p>Avec VirtualVista, faites vos achats dans les boutiques les plus prestigieuses du monde sans quitter votre domicile.</p>
+                </div>
+                <div class="about-image glass fade-in">
+                    <img src="https://source.unsplash.com/random/600x400/?virtual,mall" alt="VirtualVista Mall">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <h2 class="section-title">Fonctionnalités Clés</h2>
+            <div class="features-grid">
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Boutiques Fidèles</h3>
+                    <p>Reproduction exacte de magasins emblématiques comme Louis Vuitton Champs-Élysées avec une fidélité impressionnante.</p>
+                </div>
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Shopping Social</h3>
+                    <p>Faites vos achats avec des amis du monde entier dans un environnement virtuel partagé et interactif.</p>
+                </div>
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Intégration E-commerce</h3>
+                    <p>Compatibilité avec Amazon et autres marketplaces pour une expérience d'achat fluide et sans friction.</p>
+                </div>
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Essayage Virtuel</h3>
+                    <p>Essayez virtuellement vêtements et accessoires grâce à notre technologie d'avatar personnalisé.</p>
+                </div>
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Accessibilité Universelle</h3>
+                    <p>Disponible sur navigateurs, applications mobiles et casques VR pour une expérience adaptée à tous.</p>
+                </div>
+                <div class="feature-card glass fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analyses Avancées</h3>
+                    <p>Outils d'analyse de données pour les commerçants afin d'optimiser leurs espaces virtuels.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Crypto Section -->
+    <section class="section" id="crypto">
+        <div class="container">
+            <h2 class="section-title">VISTA Token</h2>
+            <div class="crypto-content">
+                <div class="crypto-text fade-in">
+                    <h3>Notre Écosystème Économique</h3>
+                    <p>VirtualVista intègre sa propre cryptomonnaie, le VISTA Token, pour créer un écosystème économique complet au sein de notre mall virtuel.</p>
+                    <p>Le VISTA Token permet aux utilisateurs d'effectuer des transactions, d'acheter ou louer des espaces commerciaux, et d'accéder à des fonctionnalités premium exclusives.</p>
+                    <div class="token-info">
+                        <div class="token-info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Transactions instantanées</h4>
+                                <p>Achats en temps réel sans intermédiaires bancaires</p>
+                            </div>
+                        </div>
+                        <div class="token-info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Système de récompenses</h4>
+                                <p>Distribution de tokens aux utilisateurs actifs</p>
+                            </div>
+                        </div>
+                        <div class="token-info-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Gouvernance participative</h4>
+                                <p>Les détenteurs peuvent voter sur l'évolution du mall</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="crypto-image fade-in">
+                    <div class="crypto-card glass">
+                        <div class="token-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="token-name">VISTA Token</div>
+                        <div class="token-value">Offre initiale : 100 millions</div>
+                        <a href="#" class="btn">Rejoindre la prévente</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="section roadmap" id="roadmap">
+        <div class="container">
+            <h2 class="section-title">Notre Roadmap</h2>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content glass">
+                        <div class="timeline-date">Q2-Q3 2025</div>
+                        <h3 class="timeline-title">Phase 1 : Développement</h3>
+                        <p class="timeline-text">Création de l'architecture technique, développement des premiers espaces commerciaux et partenariats avec marques pilotes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content glass">
+                        <div class="timeline-date">Q4 2025</div>
+                        <h3 class="timeline-title">Phase 2 : Lancement</h3>
+                        <p class="timeline-text">Ouverture avec 50 boutiques premium, intégration avec 3 principales plateformes e-commerce et campagne marketing internationale.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content glass">
+                        <div class="timeline-date">Q1-Q2 2026</div>
+                        <h3 class="timeline-title">Phase 3 : Expansion</h3>
+                        <p class="timeline-text">Ajout de 200 nouvelles boutiques, lancement des fonctionnalités sociales avancées et développement d'événements exclusifs.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-content glass">
+                        <div class="timeline-date">Q3-Q4 2026</div>
+                        <h3 class="timeline-title">Phase 4 : Consolidation</h3>
+                        <p class="timeline-text">Intégration de technologies d'IA avancées, expansion vers de nouveaux marchés internationaux et développement d'une économie interne.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contactez-nous</h2>
+            <div class="contact-content">
+                <div class="contact-info fade-in">
+                    <h3>Investissez dans le futur du shopping</h3>
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-info-text">
+                            <h4>Email</h4>
+                            <p>invest@virtualvista.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-info-text">
+                            <h4>Téléphone</h4>
+                            <p>+33 1 23 45 67 89</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-info-text">
+                            <h4>Adresse</h4>
+                            <p>Station F, 5 Parvis Alan Turing, 75013 Paris</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form glass fade-in">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Votre nom">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Votre email">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Sujet">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Votre message"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <a href="#" class="footer-logo">Virtual<span>Vista</span></a>
+            <div class="footer-links">
+                <a href="#about">À propos</a>
+                <a href="#features">Fonctionnalités</a>
+                <a href="#crypto">VISTA Token</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+            </div>
+            <p class="copyright">© 2025 VirtualVista. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll header effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Fade in animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        function checkFade() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkFade);
+        window.addEventListener('load', checkFade);
+    </script>
+</body>
+</html>
