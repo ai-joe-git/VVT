@@ -148,6 +148,28 @@
             z-index: 1;
             animation: fadeIn 1s ease-out;
         }
+        
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .hero-image {
+            max-width: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            margin-left: 30px;
+            z-index: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
         .hero h1 {
             font-size: 56px;
@@ -800,6 +822,16 @@
 
         /* Responsive */
         @media (max-width: 992px) {
+            .hero-container {
+                flex-direction: column;
+            }
+            
+            .hero-image {
+                margin-left: 0;
+                margin-top: 30px;
+                max-width: 100%;
+            }
+            
             .hero h1 {
                 font-size: 44px;
             }
@@ -886,12 +918,17 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <div class="hero-content">
-                <h1>Le Mall Virtuel Révolutionnaire</h1>
-                <p>VirtualVista réinvente l'expérience du shopping en fusionnant l'authenticité des boutiques physiques avec la commodité du e-commerce dans un environnement VR immersif accessible depuis n'importe où dans le monde.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn">Investir maintenant</a>
-                    <a href="#about" class="btn btn-outline">En savoir plus</a>
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1>Le Mall Virtuel Révolutionnaire</h1>
+                    <p>VirtualVista réinvente l'expérience du shopping en fusionnant l'authenticité des boutiques physiques avec la commodité du e-commerce dans un environnement VR immersif accessible depuis n'importe où dans le monde.</p>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn">Investir maintenant</a>
+                        <a href="#about" class="btn btn-outline">En savoir plus</a>
+                    </div>
+                </div>
+                <div class="hero-image glass">
+                    <img src="photo_6006052073562556272_y.jpg" alt="VirtualVista Mall - Interface futuriste avec architecture en verre, affichages holographiques flottants et avatars faisant leurs achats">
                 </div>
             </div>
         </div>
@@ -1214,8 +1251,7 @@
                         <div class="form-group">
                             <textarea class="form-control" placeholder="Votre message"></textarea>
                         </div>
-
-<button type="submit" class="btn">Envoyer</button>
+                        <button type="submit" class="btn">Envoyer</button>
                     </form>
                 </div>
             </div>
@@ -1305,9 +1341,9 @@
             });
         });
     </script>
+
+    <div class="gtranslate_wrapper"></div>
+    <script>window.gtranslateSettings = {"default_language":"fr","detect_browser_language":true,"languages":["fr","it","es","de","ar","iw","ru","en"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","horizontal_position":"left","vertical_position":"bottom","alt_flags":{"en":"usa"}}</script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
 </body>
 </html>
-
-<div class="gtranslate_wrapper"></div>
-<script>window.gtranslateSettings = {"default_language":"fr","detect_browser_language":true,"languages":["fr","it","es","de","ar","iw","ru","en"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","horizontal_position":"left","vertical_position":"bottom","alt_flags":{"en":"usa"}}</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>
